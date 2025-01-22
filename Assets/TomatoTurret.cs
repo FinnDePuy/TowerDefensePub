@@ -77,7 +77,8 @@ public class TomatoTurret : MonoBehaviour
             {
                 CooldownActive = true;
                 Cooldown = 0.0f;
-                EnemyManager.Instance.HurtEnemy(1);
+                current.gameObject.GetComponent<enemyMovement>().DamageEnemy(1);
+                EnemyManager.Instance.hit = true;
                 Debug.Log("Hit");
             }
         }
@@ -93,13 +94,9 @@ public class TomatoTurret : MonoBehaviour
     {
         if(other.gameObject.tag == "Enemy")
         {
-            if(EnemyManager.Instance.currentEnemy == null)
-            {
-                EnemyManager.Instance.currentEnemy = other.gameObject;
-                Debug.Log("Player gettings attacked is " + other.gameObject);
-                current = other;
-            }
-
+            //EnemyManager.Instance.currentEnemy = other.gameObject;
+            Debug.Log("Player gettings attacked is " + other.gameObject);
+            current = other;
             inside = true;
         }
     }
@@ -109,7 +106,7 @@ public class TomatoTurret : MonoBehaviour
         //Debug.Log(other.name);
         if(EnemyManager.Instance.currentEnemy == null)
             {
-                EnemyManager.Instance.currentEnemy = other.gameObject;
+                //EnemyManager.Instance.currentEnemy = other.gameObject;
                 Debug.Log("Player gettings attacked is " + other.gameObject);
                 current = other;
             }
@@ -119,7 +116,7 @@ public class TomatoTurret : MonoBehaviour
     {
         if(other.gameObject.tag == "Enemy")
         {
-            EnemyManager.Instance.currentEnemy = null;
+            //EnemyManager.Instance.currentEnemy = null;
             inside = false;
         }
     }

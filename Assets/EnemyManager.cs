@@ -38,9 +38,9 @@ public class EnemyManager : MonoBehaviour
     }
 
 
-    public void HurtEnemy(int Damage)
-    {
-        currentDamage = Damage;
-        hit = true;
-    }
+    // public void HurtEnemy(int Damage)
+    // {
+    //     currentDamage = Damage;
+    //     hit = true;
+    // }
 }

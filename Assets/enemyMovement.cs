@@ -16,7 +16,7 @@ public class enemyMovement : MonoBehaviour
 
     private MeshRenderer mr;
 
-    private int currentHealth;
+    public int currentHealth;
 
     void Start()
     {
@@ -43,7 +43,7 @@ public class enemyMovement : MonoBehaviour
             currentWaypointsIndex += 1;
         }
 
-        if(EnemyManager.Instance.hit && EnemyManager.Instance.currentEnemy == this.gameObject)
+        if(EnemyManager.Instance.hit)
         {
             DamageEnemy(EnemyManager.Instance.currentDamage);
         }
@@ -58,7 +58,7 @@ public class enemyMovement : MonoBehaviour
 
         if(currentHealth <= 0)
         {
-            EnemyManager.Instance.currentEnemy = null;
+            //EnemyManager.Instance.currentEnemy = null;
             Destroy(this.gameObject);
         }
 
