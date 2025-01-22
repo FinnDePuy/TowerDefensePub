@@ -49,7 +49,7 @@ public class enemyMovement : MonoBehaviour
         }
     }
 
-    public void DamageEnemy(int Damage)
+    public int DamageEnemy(int Damage)
     {
         currentHealth -= Damage;
 
@@ -63,6 +63,8 @@ public class enemyMovement : MonoBehaviour
         }
 
         mr.material = colors[currentHealth];
+
+        return currentHealth;
 
 
         //Debug.Log(colors[currentHealth]);

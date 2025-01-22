@@ -17,6 +17,8 @@ public class TomatoTurret : MonoBehaviour
 
     public float AttackTimer = 1.0f;
 
+    public int currentHealth;
+
     private bool inside;
     // Start is called before the first frame update
     void Start()
@@ -77,7 +79,11 @@ public class TomatoTurret : MonoBehaviour
             {
                 CooldownActive = true;
                 Cooldown = 0.0f;
-                current.gameObject.GetComponent<enemyMovement>().DamageEnemy(1);
+                currentHealth = current.gameObject.GetComponent<enemyMovement>().DamageEnemy(1);
+                if(currentHealth <= 0)
+                {
+                    current = null;
+                }
                 EnemyManager.Instance.hit = true;
                 Debug.Log("Hit");
             }
@@ -96,7 +102,10 @@ public class TomatoTurret : MonoBehaviour
         {
             //EnemyManager.Instance.currentEnemy = other.gameObject;
             Debug.Log("Player gettings attacked is " + other.gameObject);
-            current = other;
+            if(current == null)
+            {
+                current = other;
+            }
             inside = true;
         }
     }
@@ -104,12 +113,9 @@ public class TomatoTurret : MonoBehaviour
     void OnTriggerStay(Collider other)
     {
         //Debug.Log(other.name);
-        if(EnemyManager.Instance.currentEnemy == null)
-            {
-                //EnemyManager.Instance.currentEnemy = other.gameObject;
-                Debug.Log("Player gettings attacked is " + other.gameObject);
-                current = other;
-            }
+        //EnemyManager.Instance.currentEnemy = other.gameObject;
+        Debug.Log("Player gettings attacked is " + other.gameObject);
+        current = other;
     }
 
     void OnTriggerExit(Collider other)
@@ -118,6 +124,7 @@ public class TomatoTurret : MonoBehaviour
         {
             //EnemyManager.Instance.currentEnemy = null;
             inside = false;
+            current = null;
         }
     }
 }
