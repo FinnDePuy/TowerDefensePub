@@ -43,8 +43,8 @@ public class TomatoTurret : MonoBehaviour
 
 
         //setting up the target modes
-        targetMode.Add("First", false);
-        targetMode.Add("Last", true);
+        targetMode.Add("First", true);
+        targetMode.Add("Last", false);
         targetMode.Add("Strong", false);
     }
 

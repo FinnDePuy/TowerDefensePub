@@ -18,7 +18,10 @@ public class EnemyManager : MonoBehaviour
     private int currentRound;
     public bool hit;
     public int currentDamage;
+    private bool flag;
     public GameObject currentEnemy;
+
+    public GameObject enemiesParent;
     [SerializeField] private GameObject spawnpoint;
     [SerializeField] private GameObject[] spawnableEnemies;
     public static EnemyManager Instance { get; private set; }
@@ -41,11 +44,18 @@ public class EnemyManager : MonoBehaviour
     {
         hit = false;
         currentRound = 1;
+        flag = false;
     }
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.P))
+        // if(Input.GetKeyDown(KeyCode.P))
+        // {
+        //     Debug.Log(currentRound);
+        //     startRound(currentRound);
+        //     currentRound++;
+        // }
+        if(roundOver() && !flag)
         {
             Debug.Log(currentRound);
             startRound(currentRound);
@@ -58,6 +68,18 @@ public class EnemyManager : MonoBehaviour
         return;
     }
 
+    private bool roundOver()
+    {
+        if(enemiesParent.GetComponentInChildren<enemyMovement>() == null)
+        {
+            //flag = true;
+            return true;
+        } else
+        {
+            return false;
+        }
+    }
+
 
     //StartCoroutine(WaitForTime(5f)); // Wait for 5 seconds
     IEnumerator WaitForTimeandSpawn(float seconds, int type, int count)
@@ -65,7 +87,7 @@ public class EnemyManager : MonoBehaviour
         for(int i = 0; i < count; i++)
         {
             yield return new WaitForSeconds(seconds);
-            Instantiate(spawnableEnemies[type], spawnpoint.transform.position, spawnpoint.transform.rotation);
+            Instantiate(spawnableEnemies[type], spawnpoint.transform.position, spawnpoint.transform.rotation, enemiesParent.transform);
         }
     }
 
@@ -74,6 +96,7 @@ public class EnemyManager : MonoBehaviour
 
     public IEnumerator roundData(int Round)
     {
+        flag = true;
         switch (Round){
             case 0:
             {
@@ -127,5 +150,6 @@ public class EnemyManager : MonoBehaviour
                 break;
             }
         }
+        flag = false;
     }
 }

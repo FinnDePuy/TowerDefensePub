@@ -443,6 +443,7 @@ MonoBehaviour:
   hit: 0
   currentDamage: 0
   currentEnemy: {fileID: 0}
+  enemiesParent: {fileID: 332634295}
   spawnpoint: {fileID: 1018010929}
   spawnableEnemies:
   - {fileID: 5160222938953183668, guid: 78d398b1dbb7dfe4595a8d088b9a03d7, type: 3}
