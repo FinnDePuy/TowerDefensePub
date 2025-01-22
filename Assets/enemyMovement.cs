@@ -59,7 +59,7 @@ public class enemyMovement : MonoBehaviour
         if(currentHealth <= 0)
         {
             //EnemyManager.Instance.currentEnemy = null;
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
 
         mr.material = colors[currentHealth];

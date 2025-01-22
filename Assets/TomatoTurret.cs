@@ -1,10 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor.Il2Cpp;
 using UnityEngine;
 
 public class TomatoTurret : MonoBehaviour
 {
+    public GameObject[] enemies;
+
+    private Dictionary<string, bool> targetMode = new Dictionary<string, bool>();
     public float Cooldown;
     public bool CooldownActive;
 
@@ -13,7 +17,6 @@ public class TomatoTurret : MonoBehaviour
     Collider current;
     LineRenderer lr;
 
-    private Vector3 direction;
 
     public float AttackTimer = 1.0f;
 
@@ -28,6 +31,8 @@ public class TomatoTurret : MonoBehaviour
         layerMask = LayerMask.GetMask("Enemy");
         lr = GetComponent<LineRenderer>();
 
+
+        //setting up the line to be drawn
         lr.positionCount = 2;
         lr.startWidth = 0.1f;
         lr.endWidth = 0.1f;
@@ -36,6 +41,11 @@ public class TomatoTurret : MonoBehaviour
         lr.startColor = Color.clear;
         lr.endColor = Color.clear;
 
+
+        //setting up the target modes
+        targetMode.Add("First", false);
+        targetMode.Add("Last", true);
+        targetMode.Add("Strong", false);
     }
 
     // Update is called once per frame
@@ -55,6 +65,7 @@ public class TomatoTurret : MonoBehaviour
 
         if(inside)
         {
+            //stop attacking edgecase
             if(current == null) 
             {
                 lr.SetPosition(1, transform.position);
@@ -62,19 +73,22 @@ public class TomatoTurret : MonoBehaviour
                 lr.endColor = Color.clear;
                 return;
             }
-            //Debug.Log("This is = " + transform.position + " Enemy is = " + current.transform.position);
 
-            direction = current.transform.position - transform.position;
+            //Debug.DrawLine(transform.position, current.transform.position, Color.yellow);
 
-            Debug.DrawLine(transform.position, current.transform.position, Color.yellow);
+            //if not visably attacking attack
             if(lr.startColor != Color.red)
             {
                 lr.startColor = Color.red;
                 lr.endColor = Color.red;
                 lr.SetPosition(0, transform.position);
             }
+
+            //keep tracking
             lr.SetPosition(1, current.transform.position);
-            //this is where we will attack any of the enemies with this specific tower
+
+
+            //this is where we will do damage any of the enemies with this specific tower
             if(!CooldownActive)
             {
                 CooldownActive = true;
@@ -101,8 +115,8 @@ public class TomatoTurret : MonoBehaviour
         if(other.gameObject.tag == "Enemy")
         {
             //EnemyManager.Instance.currentEnemy = other.gameObject;
-            Debug.Log("Player gettings attacked is " + other.gameObject);
-            if(current == null)
+            //Debug.Log("Player gettings attacked is " + other.gameObject);
+            if(current == null || targetMode["Last"])
             {
                 current = other;
             }
@@ -114,8 +128,11 @@ public class TomatoTurret : MonoBehaviour
     {
         //Debug.Log(other.name);
         //EnemyManager.Instance.currentEnemy = other.gameObject;
-        Debug.Log("Player gettings attacked is " + other.gameObject);
-        current = other;
+        //Debug.Log("Player gettings attacked is " + other.gameObject);
+        if(current == null && !targetMode["First"])
+            {
+                current = other;
+            }
     }
 
     void OnTriggerExit(Collider other)
@@ -125,6 +142,22 @@ public class TomatoTurret : MonoBehaviour
             //EnemyManager.Instance.currentEnemy = null;
             inside = false;
             current = null;
+        }
+    }
+
+
+
+    private void switchTargetMode(string target)
+    {
+        foreach(var mode in targetMode.Keys)
+        {
+            if(target == mode)
+            {
+                targetMode[mode] = true;
+            }else
+            {
+                targetMode[mode] = false;
+            }
         }
     }
 }

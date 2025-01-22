@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 490046177832417578}
   - component: {fileID: 8974289426760559313}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: Yellow Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32,7 +32,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: -10}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.85, y: 0.85, z: 0.85}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -65,7 +65,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e11f61f16eb8f1e49a5a3529ec356eaa, type: 2}
+  - {fileID: 2100000, guid: f2c3e9bc14e711f4290ad545ffb25562, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -165,6 +165,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: f2c3e9bc14e711f4290ad545ffb25562, type: 2}
   - {fileID: 2100000, guid: 103d31424d9da924eb218c6be36454de, type: 2}
   - {fileID: 2100000, guid: e11f61f16eb8f1e49a5a3529ec356eaa, type: 2}
+  currentHealth: 0
 --- !u!54 &8974289426760559313
 Rigidbody:
   m_ObjectHideFlags: 0
