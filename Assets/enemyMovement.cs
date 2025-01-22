@@ -29,7 +29,7 @@ public class enemyMovement : MonoBehaviour
         mr = GetComponent<MeshRenderer>();
 
         currentHealth = Array.IndexOf(colors, mr.sharedMaterial);
-        Debug.Log(currentHealth);        
+        //Debug.Log(currentHealth);        
 
         
     }
@@ -52,7 +52,9 @@ public class enemyMovement : MonoBehaviour
     public void DamageEnemy(int Damage)
     {
         currentHealth -= Damage;
-        Debug.Log(currentHealth);
+
+        transform.localScale -= new Vector3(0.075f * Damage, 0.075f * Damage, 0.075f * Damage);
+        //Debug.Log(currentHealth);
 
         if(currentHealth <= 0)
         {
@@ -63,7 +65,7 @@ public class enemyMovement : MonoBehaviour
         mr.material = colors[currentHealth];
 
 
-        Debug.Log(colors[currentHealth]);
+        //Debug.Log(colors[currentHealth]);
         
 
         //EnemyManager.Instance.currentEnemy.GetComponent<MeshRenderer>().material = colors[currentHealth];

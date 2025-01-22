@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5275922867499830570}
   - component: {fileID: -642633476000865693}
   - component: {fileID: 490046177832417578}
+  - component: {fileID: 8974289426760559313}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -31,7 +32,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: -10}
-  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -157,4 +158,37 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  colors: []
+  colors:
+  - {fileID: 2100000, guid: 978c565f1019c7345b23a4d7fdf3e184, type: 2}
+  - {fileID: 2100000, guid: 72173b80e5be78d4e844d57303eddd5d, type: 2}
+  - {fileID: 2100000, guid: 0638bade82e6903459de985fb8a4af10, type: 2}
+  - {fileID: 2100000, guid: f2c3e9bc14e711f4290ad545ffb25562, type: 2}
+  - {fileID: 2100000, guid: 103d31424d9da924eb218c6be36454de, type: 2}
+  - {fileID: 2100000, guid: e11f61f16eb8f1e49a5a3529ec356eaa, type: 2}
+--- !u!54 &8974289426760559313
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5160222938953183668}
+  serializedVersion: 4
+  m_Mass: 0.0000001
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
