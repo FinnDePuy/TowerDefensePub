@@ -80,7 +80,7 @@ public class EnemyManager : MonoBehaviour
                 yield break;
             }
             case 1:
-            {
+            {   //Round one spawn 5 red and 2 blue
                 yield return StartCoroutine(WaitForTimeandSpawn(0.5f, 0, 5));
                 yield return new WaitForSeconds(0.5f);
                 yield return StartCoroutine(WaitForTimeandSpawn(1f, 1, 2));
@@ -88,6 +88,10 @@ public class EnemyManager : MonoBehaviour
             }
             case 2:
             {
+                //Round one spawn 10 red and 4 blue
+                yield return StartCoroutine(WaitForTimeandSpawn(0.5f, 0, 10));
+                yield return new WaitForSeconds(0.5f);
+                yield return StartCoroutine(WaitForTimeandSpawn(1f, 1, 4));
                 break;
             }
             case 3:
