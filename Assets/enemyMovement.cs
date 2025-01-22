@@ -7,8 +7,6 @@ using UnityEngine.AI;
 
 public class enemyMovement : MonoBehaviour
 {
-
-    public Transform[] waypoints;
     private NavMeshAgent agent;
     private int currentWaypointsIndex = 0;
 
@@ -21,9 +19,9 @@ public class enemyMovement : MonoBehaviour
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        if(waypoints.Length > 0)
+        if(EnemyManager.Instance.waypoints.Length > 0)
         {
-            agent.SetDestination(waypoints[currentWaypointsIndex].position);
+            agent.SetDestination(EnemyManager.Instance.waypoints[currentWaypointsIndex].position);
         }
 
         mr = GetComponent<MeshRenderer>();
@@ -37,9 +35,9 @@ public class enemyMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(currentWaypointsIndex < waypoints.Length && !agent.pathPending && agent.remainingDistance < 0.5f)
+        if(currentWaypointsIndex < EnemyManager.Instance.waypoints.Length && !agent.pathPending && agent.remainingDistance < 0.5f)
         {
-            agent.SetDestination(waypoints[currentWaypointsIndex].position);
+            agent.SetDestination(EnemyManager.Instance.waypoints[currentWaypointsIndex].position);
             currentWaypointsIndex += 1;
         }
 

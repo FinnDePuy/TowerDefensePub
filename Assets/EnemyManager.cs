@@ -7,29 +7,20 @@ using UnityEngine;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Linq;
+using Newtonsoft.Json;
 
 public class EnemyManager : MonoBehaviour
 {
 
-    public class Roundinfo
-    {
-        public int Red { get; set; }
-        public int Blue { get; set; }
-        public int Yellow { get; set; }
-        public int Orange { get; set; }
-        public int Green { get; set; }
-    }
+    public Transform[] waypoints;
 
+
+    private int currentRound;
     public bool hit;
     public int currentDamage;
-
     public GameObject currentEnemy;
-
+    [SerializeField] private GameObject spawnpoint;
     [SerializeField] private GameObject[] spawnableEnemies;
-    [SerializeField] private TextAsset roundJson;
-
-    private Dictionary<string, Roundinfo> rounds;
-
     public static EnemyManager Instance { get; private set; }
 
     // Awake is called when the script instance is being loaded
@@ -49,50 +40,88 @@ public class EnemyManager : MonoBehaviour
     void Start()
     {
         hit = false;
-        LoadRoundData(roundJson.text);
+        currentRound = 1;
     }
-
-
     // Update is called once per frame
     void Update()
     {
-        
-    }
-
-    private void LoadRoundData(string json)
-    {
-        try
+        if(Input.GetKeyDown(KeyCode.P))
         {
-            // Deserialize JSON into a dictionary
-            //var roundsData = JsonSerializer.ToJsonString(json);
-            Debug.Log("Rounds successfully loaded.");
-            Debug.Log(json);
-            var cleanedJson = json.Replace("\r", "").Replace("\n", "");
-            char[] unwanted = { ' ' }; // Example: you can add more unwanted characters to this array
-            var cleanedJsonString = string.Join("", cleanedJson.Where(c => !unwanted.Contains(c)));
-            Debug.Log(cleanedJsonString);
-            //return roundsData;
-        }
-        catch (Exception ex)
-        {
-            Debug.LogError($"Error loading JSON: {ex.Message}");
-            //return new Dictionary<string, Roundinfo>();
+            Debug.Log(currentRound);
+            startRound(currentRound);
+            currentRound++;
         }
     }
-
-
-    private void spawnEnemies()
+    private void startRound(int round)
     {
+        StartCoroutine(roundData(round));
         return;
     }
 
-    private void startRound()
+
+    //StartCoroutine(WaitForTime(5f)); // Wait for 5 seconds
+    IEnumerator WaitForTimeandSpawn(float seconds, int type, int count)
     {
-        return;
+        for(int i = 0; i < count; i++)
+        {
+            yield return new WaitForSeconds(seconds);
+            Instantiate(spawnableEnemies[type], spawnpoint.transform.position, spawnpoint.transform.rotation);
+        }
     }
-    // public void HurtEnemy(int Damage)
-    // {
-    //     currentDamage = Damage;
-    //     hit = true;
-    // }
+
+
+
+
+    public IEnumerator roundData(int Round)
+    {
+        switch (Round){
+            case 0:
+            {
+                yield break;
+            }
+            case 1:
+            {
+                yield return StartCoroutine(WaitForTimeandSpawn(0.5f, 0, 5));
+                yield return new WaitForSeconds(0.5f);
+                yield return StartCoroutine(WaitForTimeandSpawn(1f, 1, 2));
+                break;
+            }
+            case 2:
+            {
+                break;
+            }
+            case 3:
+            {
+                break;
+            }
+            case 4:
+            {
+                break;
+            }
+            case 5:
+            {
+                break;
+            }
+            case 6:
+            {
+                break;
+            }
+            case 7:
+            {
+                break;
+            }
+            case 8:
+            {
+                break;
+            }
+            case 9:
+            {
+                break;
+            }
+            case 10:
+            {
+                break;
+            }
+        }
+    }
 }
