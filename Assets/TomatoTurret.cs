@@ -18,6 +18,9 @@ public class TomatoTurret : MonoBehaviour
     LineRenderer lr;
 
 
+    bool targetLock = false;
+
+
     public float AttackTimer = 1.0f;
 
     public int currentHealth;
@@ -51,20 +54,18 @@ public class TomatoTurret : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log(Cooldown);
-        if(Cooldown < AttackTimer && CooldownActive)
-        {
-            Cooldown += Time.deltaTime;
-            EnemyManager.Instance.hit = false;
-        }
-        if(CooldownActive && Cooldown >= AttackTimer)
-        {
-            CooldownActive = false;
-        }
-
-
         if(inside)
         {
+            if(Cooldown < AttackTimer && CooldownActive)
+            {
+                Cooldown += Time.deltaTime;
+                EnemyManager.Instance.hit = false;
+            }
+            if(CooldownActive && Cooldown >= AttackTimer)
+            {
+                CooldownActive = false;
+                targetLock = false;
+            }
             //stop attacking edgecase
             if(current == null) 
             {
@@ -74,14 +75,13 @@ public class TomatoTurret : MonoBehaviour
                 return;
             }
 
-            //Debug.DrawLine(transform.position, current.transform.position, Color.yellow);
-
             //if not visably attacking attack
             if(lr.startColor != Color.red)
             {
                 lr.startColor = Color.red;
                 lr.endColor = Color.red;
                 lr.SetPosition(0, transform.position);
+                targetLock = true;
             }
 
             //keep tracking
@@ -100,6 +100,7 @@ public class TomatoTurret : MonoBehaviour
                 }
                 EnemyManager.Instance.hit = true;
                 Debug.Log("Hit");
+                targetLock = false;
             }
         }
         else
@@ -107,11 +108,16 @@ public class TomatoTurret : MonoBehaviour
             lr.SetPosition(1, transform.position);
             lr.startColor = Color.clear;
             lr.endColor = Color.clear;
+            Cooldown = 0.0f;
+            CooldownActive = true;
+            targetLock = false;
         }
     }
 
     void OnTriggerEnter(Collider other)
     {
+        if(targetLock) return;
+        other.gameObject.GetComponent<enemyMovement>().inside = true;
         if(other.gameObject.tag == "Enemy")
         {
             //EnemyManager.Instance.currentEnemy = other.gameObject;
@@ -121,24 +127,66 @@ public class TomatoTurret : MonoBehaviour
                 current = other;
             }
             inside = true;
+            if(targetMode["First"])
+            {
+                current = EnemyManager.Instance.enemiesParent.transform.GetChild(0).GetComponent<Collider>();
+            }
+            if(targetMode["Strong"])
+            {
+                current = EnemyManager.Instance.enemiesParent.transform.GetChild(0).GetComponent<Collider>();
+                for(int i = 0; i < EnemyManager.Instance.enemiesParent.transform.childCount; i++)
+                {
+                    if((current.gameObject.GetComponent<enemyMovement>().currentHealth < EnemyManager.Instance.enemiesParent.transform.GetChild(i).GetComponent<enemyMovement>().currentHealth) && EnemyManager.Instance.enemiesParent.transform.GetChild(i).GetComponent<enemyMovement>().inside == true)
+                    {
+                    current = EnemyManager.Instance.enemiesParent.transform.GetChild(i).GetComponent<Collider>();
+                    }
+                }
+            }
+            if(targetMode["Last"] && EnemyManager.Instance.enemiesParent.transform.GetChild(EnemyManager.Instance.enemiesParent.transform.childCount-1).GetComponent<enemyMovement>().inside == true)
+            {
+                current = EnemyManager.Instance.enemiesParent.transform.GetChild(EnemyManager.Instance.enemiesParent.transform.childCount-1).GetComponent<Collider>();
+            }
         }
     }
 
     void OnTriggerStay(Collider other)
     {
+        if(targetLock) return;
         //Debug.Log(other.name);
         //EnemyManager.Instance.currentEnemy = other.gameObject;
         //Debug.Log("Player gettings attacked is " + other.gameObject);
         if(current == null && !targetMode["First"])
+        {
+            current = other;
+        }
+        if(targetMode["First"] && current == null)
+        {
+            current = EnemyManager.Instance.enemiesParent.transform.GetChild(0).GetComponent<Collider>();
+        }
+        if(targetMode["Strong"] && current == null)
+        {
+            current = EnemyManager.Instance.enemiesParent.transform.GetChild(0).GetComponent<Collider>();
+            for(int i = 0; i < EnemyManager.Instance.enemiesParent.transform.childCount; i++)
             {
-                current = other;
+                if((current.gameObject.GetComponent<enemyMovement>().currentHealth < EnemyManager.Instance.enemiesParent.transform.GetChild(i).GetComponent<enemyMovement>().currentHealth) && EnemyManager.Instance.enemiesParent.transform.GetChild(i).GetComponent<enemyMovement>().inside == true)
+                {
+                    current = EnemyManager.Instance.enemiesParent.transform.GetChild(i).GetComponent<Collider>();
+                    Debug.Log("New enemy Selected");
+                }
             }
+        }
+        if(targetMode["Last"] && EnemyManager.Instance.enemiesParent.transform.GetChild(EnemyManager.Instance.enemiesParent.transform.childCount-1).GetComponent<enemyMovement>().inside == true)
+        {
+            current = EnemyManager.Instance.enemiesParent.transform.GetChild(EnemyManager.Instance.enemiesParent.transform.childCount-1).GetComponent<Collider>();
+        }
     }
 
     void OnTriggerExit(Collider other)
     {
+        if(targetLock) return;
         if(other.gameObject.tag == "Enemy")
         {
+            other.gameObject.GetComponent<enemyMovement>().inside = false;
             //EnemyManager.Instance.currentEnemy = null;
             inside = false;
             current = null;

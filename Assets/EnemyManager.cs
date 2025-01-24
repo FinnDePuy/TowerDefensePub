@@ -55,7 +55,7 @@ public class EnemyManager : MonoBehaviour
         //     startRound(currentRound);
         //     currentRound++;
         // }
-        if(roundOver() && !flag)
+        if(roundOver() && !flag && currentRound < 3)
         {
             Debug.Log(currentRound);
             startRound(currentRound);

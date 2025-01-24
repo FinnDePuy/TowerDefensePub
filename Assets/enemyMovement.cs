@@ -8,6 +8,7 @@ using UnityEngine.AI;
 public class enemyMovement : MonoBehaviour
 {
     private NavMeshAgent agent;
+    public bool inside = false;
     private int currentWaypointsIndex = 0;
 
     public Material[] colors;
