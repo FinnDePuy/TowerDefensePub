@@ -55,13 +55,25 @@ public class EnemyManager : MonoBehaviour
         //     startRound(currentRound);
         //     currentRound++;
         // }
-        if(roundOver() && !flag && currentRound < 3)
-        {
-            Debug.Log(currentRound);
-            startRound(currentRound);
-            currentRound++;
-        }
+        // if(roundOver() && !flag && currentRound < 3)
+        // {
+        //     Debug.Log(currentRound);
+        //     startRound(currentRound);
+        //     currentRound++;
+        // }
     }
+    public void nextRound()
+    {
+        if(enemiesParent.transform.childCount != 0) {Debug.Log("Nice try"); return;}
+        if(currentRound > 3)
+        {
+            Debug.Log("Finished all content");
+        }
+        startRound(currentRound);
+        currentRound++;
+    }
+
+
     private void startRound(int round)
     {
         StartCoroutine(roundData(round));

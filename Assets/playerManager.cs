@@ -7,6 +7,15 @@ public class playerManager : MonoBehaviour
 
     public int gold;
 
+    public int playerHealth;
+
+
+    [SerializeField] public GameObject turrets;
+
+    public GameObject tomatoTurrets;
+
+    [SerializeField] private GameObject tomatoTurret;
+
 
 
     public static playerManager Instance { get; private set; }
@@ -27,13 +36,18 @@ public class playerManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        tomatoTurrets = turrets.transform.GetChild(0).gameObject;
+        gold = 15;
+        playerHealth = 20;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if(Input.GetKeyDown(KeyCode.Q))
+        {
+            buyTomatoTower();
+        }
     }
 
     public void generateGold(int value)
@@ -49,9 +63,13 @@ public class playerManager : MonoBehaviour
 
     public void buyTomatoTower()
     {
-        if(gold > 15)
+        if(gold >= 15)
         {
-            return;
+            Vector3 mousePosition = Input.mousePosition;
+            mousePosition.z = 10f;
+            Vector3 worldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
+            Instantiate(tomatoTurret, worldPosition + new Vector3 (0f, 3.5f, 0f), Quaternion.identity, tomatoTurrets.transform);
+            tomatoTurret.GetComponent<TomatoTurret>().purchaseThis();
         }
     }
 }

@@ -232,4 +232,10 @@ public class TomatoTurret : MonoBehaviour
         transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition - mousePosition);
     }
 
+
+    public void purchaseThis()
+    {
+        purchased = true;
+    }
+
 }
