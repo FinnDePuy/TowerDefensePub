@@ -17,6 +17,8 @@ public class enemyMovement : MonoBehaviour
 
     public int currentHealth;
 
+    public int startingHealth;
+
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -28,6 +30,7 @@ public class enemyMovement : MonoBehaviour
         mr = GetComponent<MeshRenderer>();
 
         currentHealth = Array.IndexOf(colors, mr.sharedMaterial);
+        startingHealth = currentHealth;
         //Debug.Log(currentHealth);        
 
         
@@ -57,6 +60,7 @@ public class enemyMovement : MonoBehaviour
 
         if(currentHealth <= 0)
         {
+            playerManager.Instance.generateGold(startingHealth);
             //EnemyManager.Instance.currentEnemy = null;
             Destroy(gameObject);
         }

@@ -11,16 +11,15 @@ public class TomatoTurret : MonoBehaviour
     private Dictionary<string, bool> targetMode = new Dictionary<string, bool>();
     public float Cooldown;
     public bool CooldownActive;
-
     LayerMask layerMask;
     RaycastHit hit;
     Collider current;
     LineRenderer lr;
+    public bool purchased = false;
+    Vector3 mousePosition;
 
 
     bool targetLock = false;
-
-
     public float AttackTimer = 1.0f;
 
     public int currentHealth;
@@ -78,6 +77,8 @@ public class TomatoTurret : MonoBehaviour
             //if not visably attacking attack
             if(lr.startColor != Color.red)
             {
+                Cooldown = 0.0f;
+                CooldownActive = true;
                 lr.startColor = Color.red;
                 lr.endColor = Color.red;
                 lr.SetPosition(0, transform.position);
@@ -99,7 +100,8 @@ public class TomatoTurret : MonoBehaviour
                     current = null;
                 }
                 EnemyManager.Instance.hit = true;
-                Debug.Log("Hit");
+                Debug.Log("Hit from -> " + name);
+                //playerManager.Instance.generateGold(1);
                 targetLock = false;
             }
         }
@@ -208,4 +210,26 @@ public class TomatoTurret : MonoBehaviour
             }
         }
     }
+
+
+
+
+
+    private Vector3 getMousePos()
+    {
+        return Camera.main.WorldToScreenPoint(transform.position);
+    }
+
+    private void OnMouseOver()
+    {
+        mousePosition = Input.mousePosition - getMousePos();
+    }
+
+
+    private void OnMouseDrag()
+    {
+        if(!purchased) return;
+        transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition - mousePosition);
+    }
+
 }
