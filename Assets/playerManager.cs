@@ -37,7 +37,7 @@ public class playerManager : MonoBehaviour
     void Start()
     {
         tomatoTurrets = turrets.transform.GetChild(0).gameObject;
-        gold = 15;
+        gold = 30;
         playerHealth = 20;
     }
 
@@ -70,6 +70,7 @@ public class playerManager : MonoBehaviour
             Vector3 worldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
             Instantiate(tomatoTurret, worldPosition + new Vector3 (0f, 3.5f, 0f), Quaternion.identity, tomatoTurrets.transform);
             tomatoTurret.GetComponent<TomatoTurret>().purchaseThis();
+            gold -= 15;
         }
     }
 }
