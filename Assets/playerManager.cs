@@ -58,9 +58,9 @@ public class playerManager : MonoBehaviour
 
     public void displayGold() {uiGold.text = "Gold: " + gold;}
     public void displayHealth() {uiHealth.text = "Health: " + playerHealth;}
-    public void generateGold(int value) {gold += value;}
-    public void spendGold(int value) {gold -= value;}
-    public void loseHealth(int value) {playerHealth -= value;}
+    public void generateGold(int value) {gold += value; displayGold();}
+    public void spendGold(int value) {gold -= value; displayGold();}
+    public void loseHealth(int value) {playerHealth -= value; displayHealth();}
     public void buyTomatoTower()
     {
         if(gold >= 15)

@@ -42,7 +42,6 @@ public class enemyMovement : MonoBehaviour
         if(currentWaypointsIndex == EnemyManager.Instance.waypoints.Length)
         {
             playerManager.Instance.loseHealth(currentHealth);
-            playerManager.Instance.displayHealth();
             Destroy(gameObject);
         }
         if(EnemyManager.Instance.hit)
@@ -58,7 +57,6 @@ public class enemyMovement : MonoBehaviour
         if(currentHealth <= 0)
         {
             playerManager.Instance.generateGold(startingHealth);
-            playerManager.Instance.displayGold();
             //EnemyManager.Instance.currentEnemy = null;
             Destroy(gameObject);
         }

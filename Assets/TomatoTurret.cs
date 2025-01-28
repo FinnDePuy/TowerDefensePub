@@ -127,17 +127,9 @@ public class TomatoTurret : MonoBehaviour
         other.gameObject.GetComponent<enemyMovement>().inside = true;
         if(other.gameObject.tag == "Enemy")
         {
-            //EnemyManager.Instance.currentEnemy = other.gameObject;
-            //Debug.Log("Player gettings attacked is " + other.gameObject);
-            if(current == null || targetMode["Last"])
-            {
-                current = other;
-            }
+            if(current == null || targetMode["Last"]) {current = other;}
             inside = true;
-            if(targetMode["First"])
-            {
-                current = EnemyManager.Instance.enemiesParent.transform.GetChild(0).GetComponent<Collider>();
-            }
+            if(targetMode["First"]) {current = EnemyManager.Instance.enemiesParent.transform.GetChild(0).GetComponent<Collider>();}
             if(targetMode["Strong"])
             {
                 current = EnemyManager.Instance.enemiesParent.transform.GetChild(0).GetComponent<Collider>();
@@ -159,17 +151,8 @@ public class TomatoTurret : MonoBehaviour
     void OnTriggerStay(Collider other)
     {
         if(targetLock) return;
-        //Debug.Log(other.name);
-        //EnemyManager.Instance.currentEnemy = other.gameObject;
-        //Debug.Log("Player gettings attacked is " + other.gameObject);
-        if(current == null && !targetMode["First"])
-        {
-            current = other;
-        }
-        if(targetMode["First"] && current == null)
-        {
-            current = EnemyManager.Instance.enemiesParent.transform.GetChild(0).GetComponent<Collider>();
-        }
+        if(current == null && !targetMode["First"]) {current = other;}
+        if(targetMode["First"] && current == null) {current = EnemyManager.Instance.enemiesParent.transform.GetChild(0).GetComponent<Collider>();}
         if(targetMode["Strong"] && current == null)
         {
             current = EnemyManager.Instance.enemiesParent.transform.GetChild(0).GetComponent<Collider>();
@@ -226,23 +209,22 @@ public class TomatoTurret : MonoBehaviour
     }
     private void OnMouseDrag()
     {
-        if(!purchased) return;
+        if(!purchased || playerManager.Instance.gold < 5) return;
         airborn = true;
         transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition - mousePosition);
         lr.SetPosition(1, transform.position);
         lr.SetPosition(0, transform.position);
-        lr.startColor = Color.clear;
-        lr.endColor = Color.clear;
         Cooldown = 0.0f;
         CooldownActive = true;
         targetLock = false;
-        Debug.Log(lr.endColor + " and " + lr.startColor);
-        Debug.Log("Working");
     }
 
     void OnMouseUp()
     {
+        if(!airborn) return;
         airborn = false;
+        if(playerManager.Instance.gold < 5) return;
+        playerManager.Instance.spendGold(5);
     }
     public void purchaseThis()
     {
