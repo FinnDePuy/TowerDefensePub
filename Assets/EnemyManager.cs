@@ -78,7 +78,6 @@ public class EnemyManager : MonoBehaviour
         StartCoroutine(roundData(round));
         return;
     }
-    
     IEnumerator WaitForTimeandSpawn(float seconds, int type, int count)
     {
         for(int i = 0; i < count; i++)
@@ -87,10 +86,6 @@ public class EnemyManager : MonoBehaviour
             Instantiate(spawnableEnemies[type], spawnpoint.transform.position, spawnpoint.transform.rotation, enemiesParent.transform);
         }
     }
-
-
-
-
     public IEnumerator roundData(int Round)
     {
         flag = true;

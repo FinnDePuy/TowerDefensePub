@@ -8,6 +8,8 @@ public class TomatoTurret : MonoBehaviour
 {
     public GameObject[] enemies;
 
+    public GameObject enemyFloor;
+
     private Dictionary<string, bool> targetMode = new Dictionary<string, bool>();
     public float Cooldown;
     public bool CooldownActive;
@@ -21,13 +23,14 @@ public class TomatoTurret : MonoBehaviour
 
     bool targetLock = false;
     public float AttackTimer = 1.0f;
-
     public int currentHealth;
-
     private bool inside;
+    private bool airborn;
     // Start is called before the first frame update
     void Start()
     {
+
+        airborn = false;
         CooldownActive = false;
         Cooldown = Time.deltaTime;
         layerMask = LayerMask.GetMask("Enemy");
@@ -48,6 +51,9 @@ public class TomatoTurret : MonoBehaviour
         targetMode.Add("First", true);
         targetMode.Add("Last", false);
         targetMode.Add("Strong", false);
+
+
+        enemyFloor = GameObject.Find("Enemy Floor");
     }
 
     // Update is called once per frame
@@ -75,7 +81,7 @@ public class TomatoTurret : MonoBehaviour
             }
 
             //if not visably attacking attack
-            if(lr.startColor != Color.red)
+            if(lr.startColor != Color.red && !airborn)
             {
                 Cooldown = 0.0f;
                 CooldownActive = true;
@@ -85,8 +91,7 @@ public class TomatoTurret : MonoBehaviour
                 targetLock = true;
             }
 
-            //keep tracking
-            lr.SetPosition(1, current.transform.position);
+            if(!airborn) lr.SetPosition(1, current.transform.position);
 
 
             //this is where we will do damage any of the enemies with this specific tower
@@ -189,7 +194,6 @@ public class TomatoTurret : MonoBehaviour
         if(other.gameObject.tag == "Enemy")
         {
             other.gameObject.GetComponent<enemyMovement>().inside = false;
-            //EnemyManager.Instance.currentEnemy = null;
             inside = false;
             current = null;
         }
@@ -211,10 +215,6 @@ public class TomatoTurret : MonoBehaviour
         }
     }
 
-
-
-
-
     private Vector3 getMousePos()
     {
         return Camera.main.WorldToScreenPoint(transform.position);
@@ -224,15 +224,26 @@ public class TomatoTurret : MonoBehaviour
     {
         mousePosition = Input.mousePosition - getMousePos();
     }
-
-
     private void OnMouseDrag()
     {
         if(!purchased) return;
+        airborn = true;
         transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition - mousePosition);
+        lr.SetPosition(1, transform.position);
+        lr.SetPosition(0, transform.position);
+        lr.startColor = Color.clear;
+        lr.endColor = Color.clear;
+        Cooldown = 0.0f;
+        CooldownActive = true;
+        targetLock = false;
+        Debug.Log(lr.endColor + " and " + lr.startColor);
+        Debug.Log("Working");
     }
 
-
+    void OnMouseUp()
+    {
+        airborn = false;
+    }
     public void purchaseThis()
     {
         purchased = true;
