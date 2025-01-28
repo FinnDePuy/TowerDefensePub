@@ -78,21 +78,7 @@ public class EnemyManager : MonoBehaviour
         StartCoroutine(roundData(round));
         return;
     }
-
-    private bool roundOver()
-    {
-        if(enemiesParent.GetComponentInChildren<enemyMovement>() == null)
-        {
-            //flag = true;
-            return true;
-        } else
-        {
-            return false;
-        }
-    }
-
-
-    //StartCoroutine(WaitForTime(5f)); // Wait for 5 seconds
+    
     IEnumerator WaitForTimeandSpawn(float seconds, int type, int count)
     {
         for(int i = 0; i < count; i++)

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class playerManager : MonoBehaviour
 {
@@ -8,6 +9,11 @@ public class playerManager : MonoBehaviour
     public int gold;
 
     public int playerHealth;
+
+    public GameObject uiHolder;
+
+    private TextMeshProUGUI uiGold;
+    private TextMeshProUGUI uiHealth;
 
 
     [SerializeField] public GameObject turrets;
@@ -34,6 +40,10 @@ public class playerManager : MonoBehaviour
         tomatoTurrets = turrets.transform.GetChild(0).gameObject;
         gold = 30;
         playerHealth = 20;
+        uiGold = uiHolder.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
+        uiHealth = uiHolder.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>();
+        displayGold();
+        displayHealth();
     }
 
     // Update is called once per frame
@@ -42,10 +52,15 @@ public class playerManager : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Q))
         {
             buyTomatoTower();
+            displayGold();
         }
     }
+
+    public void displayGold() {uiGold.text = "Gold: " + gold;}
+    public void displayHealth() {uiHealth.text = "Health: " + playerHealth;}
     public void generateGold(int value) {gold += value;}
     public void spendGold(int value) {gold -= value;}
+    public void loseHealth(int value) {playerHealth -= value;}
     public void buyTomatoTower()
     {
         if(gold >= 15)
