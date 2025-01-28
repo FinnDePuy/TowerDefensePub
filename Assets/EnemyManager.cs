@@ -8,62 +8,61 @@ using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Linq;
 using Newtonsoft.Json;
+using UnityEngine.UI;
+using TMPro;
 
 public class EnemyManager : MonoBehaviour
 {
 
     public Transform[] waypoints;
-
-
     private int currentRound;
     public bool hit;
     public int currentDamage;
     private bool flag;
     public GameObject currentEnemy;
-
     public GameObject enemiesParent;
     [SerializeField] private GameObject spawnpoint;
     [SerializeField] private GameObject[] spawnableEnemies;
-    public static EnemyManager Instance { get; private set; }
+    [SerializeField] private Button roundStartBut;
+    private TextMeshProUGUI roundButtonText;
 
-    // Awake is called when the script instance is being loaded
+    public bool speedUp;
+    public static EnemyManager Instance { get; private set; }
     private void Awake()
     {
-        // Check if there is already an instance of this class
         if (Instance != null && Instance != this)
         {
-            // Destroy the duplicate instance
             Destroy(gameObject);
             return;
         }
 
         Instance = this;
     }
-    // Start is called before the first frame update
+
     void Start()
     {
         hit = false;
         currentRound = 1;
         flag = false;
+        roundButtonText = roundStartBut.GetComponentInChildren<TextMeshProUGUI>();
+        speedUp = false;
     }
     // Update is called once per frame
     void Update()
     {
-        // if(Input.GetKeyDown(KeyCode.P))
-        // {
-        //     Debug.Log(currentRound);
-        //     startRound(currentRound);
-        //     currentRound++;
-        // }
-        // if(roundOver() && !flag && currentRound < 3)
-        // {
-        //     Debug.Log(currentRound);
-        //     startRound(currentRound);
-        //     currentRound++;
-        // }
+        if(enemiesParent.transform.childCount > 0)
+        {
+            roundStartBut.interactable = false;
+            roundButtonText.text = "In Progress";
+        } else
+        {
+            roundStartBut.interactable = true;
+            roundButtonText.text = "Round Start";
+        }
     }
     public void nextRound()
     {
+        //if there are still enemies
         if(enemiesParent.transform.childCount != 0) {Debug.Log("Nice try"); return;}
         if(currentRound > 3)
         {
