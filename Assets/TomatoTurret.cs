@@ -20,6 +20,8 @@ public class TomatoTurret : MonoBehaviour
     public bool purchased = false;
     Vector3 mousePosition;
 
+    BoxCollider boxCollider;
+
 
     bool targetLock = false;
     public float AttackTimer = 1.0f;
@@ -35,7 +37,7 @@ public class TomatoTurret : MonoBehaviour
         Cooldown = Time.deltaTime;
         layerMask = LayerMask.GetMask("Enemy");
         lr = GetComponent<LineRenderer>();
-
+        boxCollider = gameObject.GetComponent<BoxCollider>();
 
         //setting up the line to be drawn
         lr.positionCount = 2;
@@ -203,13 +205,27 @@ public class TomatoTurret : MonoBehaviour
         return Camera.main.WorldToScreenPoint(transform.position);
     }
 
+
+
     private void OnMouseOver()
     {
-        mousePosition = Input.mousePosition - getMousePos();
+        // Perform a raycast to detect if the mouse is over the BoxCollider
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hitInfo;
+
+        // Perform the raycast and check if it hits the BoxCollider (by layer or tag check if necessary)
+        if (boxCollider.Raycast(ray, out hitInfo, Mathf.Infinity))
+        {
+            // If the BoxCollider is hit, set mouse position for dragging
+            mousePosition = Input.mousePosition - getMousePos();
+        }
     }
+
     private void OnMouseDrag()
     {
-        if(!purchased || playerManager.Instance.gold < 5) return;
+        if (!purchased || playerManager.Instance.gold < 5) return;
+
+        // Perform the raycast to check if we're interacting with the BoxCollider
         airborn = true;
         transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition - mousePosition);
         lr.SetPosition(1, transform.position);

@@ -135,9 +135,9 @@ GameObject:
   - component: {fileID: 111525536}
   - component: {fileID: 111525535}
   - component: {fileID: 111525534}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Plane (2)
-  m_TagString: Untagged
+  m_TagString: NoPlacement
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -353,9 +353,9 @@ GameObject:
   - component: {fileID: 217866993}
   - component: {fileID: 217866992}
   - component: {fileID: 217866991}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Plane (5)
-  m_TagString: Untagged
+  m_TagString: NoPlacement
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1165,9 +1165,9 @@ GameObject:
   - component: {fileID: 358108332}
   - component: {fileID: 358108331}
   - component: {fileID: 358108330}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Plane
-  m_TagString: Untagged
+  m_TagString: NoPlacement
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1843,9 +1843,9 @@ GameObject:
   - component: {fileID: 630180190}
   - component: {fileID: 630180189}
   - component: {fileID: 630180188}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Plane (12)
-  m_TagString: Untagged
+  m_TagString: NoPlacement
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2227,9 +2227,9 @@ GameObject:
   - component: {fileID: 659110717}
   - component: {fileID: 659110716}
   - component: {fileID: 659110715}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Plane (11)
-  m_TagString: Untagged
+  m_TagString: NoPlacement
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2333,9 +2333,9 @@ GameObject:
   - component: {fileID: 692923179}
   - component: {fileID: 692923178}
   - component: {fileID: 692923177}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Plane (8)
-  m_TagString: Untagged
+  m_TagString: NoPlacement
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4994,9 +4994,9 @@ GameObject:
   - component: {fileID: 1202937288}
   - component: {fileID: 1202937287}
   - component: {fileID: 1202937286}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Plane (7)
-  m_TagString: Untagged
+  m_TagString: NoPlacement
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6569,9 +6569,9 @@ GameObject:
   - component: {fileID: 1636531583}
   - component: {fileID: 1636531582}
   - component: {fileID: 1636531581}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Plane (6)
-  m_TagString: Untagged
+  m_TagString: NoPlacement
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6813,9 +6813,9 @@ GameObject:
   - component: {fileID: 1751768819}
   - component: {fileID: 1751768818}
   - component: {fileID: 1751768817}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Plane (10)
-  m_TagString: Untagged
+  m_TagString: NoPlacement
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7041,9 +7041,9 @@ GameObject:
   - component: {fileID: 1808139753}
   - component: {fileID: 1808139752}
   - component: {fileID: 1808139751}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Plane (4)
-  m_TagString: Untagged
+  m_TagString: NoPlacement
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7619,9 +7619,9 @@ GameObject:
   - component: {fileID: 1898085143}
   - component: {fileID: 1898085142}
   - component: {fileID: 1898085141}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Plane (3)
-  m_TagString: Untagged
+  m_TagString: NoPlacement
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7878,9 +7878,9 @@ GameObject:
   - component: {fileID: 1918105906}
   - component: {fileID: 1918105905}
   - component: {fileID: 1918105904}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Plane (9)
-  m_TagString: Untagged
+  m_TagString: NoPlacement
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8106,9 +8106,9 @@ GameObject:
   - component: {fileID: 2036372179}
   - component: {fileID: 2036372178}
   - component: {fileID: 2036372177}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Plane (1)
-  m_TagString: Untagged
+  m_TagString: NoPlacement
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
