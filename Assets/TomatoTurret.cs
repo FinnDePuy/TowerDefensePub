@@ -132,11 +132,49 @@ public class TomatoTurret : MonoBehaviour
         {
             isInNoPlacementArea = true;
             Debug.Log("In Area");
+
+            MoveToNearestValidPosition();
         }
         else
         {
             isInNoPlacementArea = false;
             Debug.Log("Out Area");
+        }
+    }
+
+    private void MoveToNearestValidPosition()
+    {
+        float searchRadius = 10f;
+        // Perform a search for valid positions in the surrounding area
+        Collider[] validSpots = Physics.OverlapSphere(transform.position, searchRadius, PlacementLayer);
+
+        if (validSpots.Length > 0)
+        {
+            // Find the closest valid position
+            Collider nearestSpot = validSpots[0];
+            float nearestDistance = Vector3.Distance(transform.position, nearestSpot.transform.position);
+
+            // Iterate through the nearby valid spots and find the closest one
+            foreach (Collider spot in validSpots)
+            {
+                float distance = Vector3.Distance(transform.position, spot.transform.position);
+                if (distance < nearestDistance)
+                {
+                    nearestSpot = spot;
+                    nearestDistance = distance;
+                }
+            }
+
+            if(airborn) return;
+            // Move the tower to the nearest valid position
+            transform.position = nearestSpot.transform.position;
+            lr.SetPosition(1, transform.position);
+            lr.SetPosition(0, transform.position);
+            Cooldown = 0.0f;
+            CooldownActive = true;
+            targetLock = false;
+            playerManager.Instance.generateGold(5);
+            Debug.Log("Moved to nearest valid position.");
         }
     }
 
