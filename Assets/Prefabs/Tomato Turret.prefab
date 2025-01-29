@@ -146,6 +146,9 @@ MonoBehaviour:
   Cooldown: 0
   CooldownActive: 0
   purchased: 1
+  PlacementLayer:
+    serializedVersion: 2
+    m_Bits: 64
   AttackTimer: 1
   currentHealth: 0
 --- !u!120 &2438095000205719638

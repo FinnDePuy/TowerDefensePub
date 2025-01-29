@@ -21,7 +21,8 @@ public class TomatoTurret : MonoBehaviour
     Vector3 mousePosition;
 
     BoxCollider boxCollider;
-
+    private bool isInNoPlacementArea = false;
+    public LayerMask PlacementLayer;
 
     bool targetLock = false;
     public float AttackTimer = 1.0f;
@@ -108,7 +109,6 @@ public class TomatoTurret : MonoBehaviour
                 }
                 EnemyManager.Instance.hit = true;
                 Debug.Log("Hit from -> " + name);
-                //playerManager.Instance.generateGold(1);
                 targetLock = false;
             }
         }
@@ -120,6 +120,23 @@ public class TomatoTurret : MonoBehaviour
             Cooldown = 0.0f;
             CooldownActive = true;
             targetLock = false;
+        }
+
+        Vector3 bottomOfCube = transform.position - new Vector3(0, GetComponent<Collider>().bounds.extents.y - 4.5f, 0);
+        // Create a ray from the bottom of the cube, pointing downward or in the direction you want to check
+        Ray ray = new Ray(bottomOfCube, Vector3.down); // Ray goes downward from the bottom of the cube
+        Debug.DrawRay(ray.origin, ray.direction * 10f, Color.red);  // Visualize the ray in the Scene view
+        RaycastHit hitInfo;
+
+        if (Physics.Raycast(ray, out hitInfo, Mathf.Infinity, ~PlacementLayer)) 
+        {
+            isInNoPlacementArea = true;
+            Debug.Log("In Area");
+        }
+        else
+        {
+            isInNoPlacementArea = false;
+            Debug.Log("Out Area");
         }
     }
 
@@ -209,14 +226,10 @@ public class TomatoTurret : MonoBehaviour
 
     private void OnMouseOver()
     {
-        // Perform a raycast to detect if the mouse is over the BoxCollider
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hitInfo;
-
-        // Perform the raycast and check if it hits the BoxCollider (by layer or tag check if necessary)
         if (boxCollider.Raycast(ray, out hitInfo, Mathf.Infinity))
         {
-            // If the BoxCollider is hit, set mouse position for dragging
             mousePosition = Input.mousePosition - getMousePos();
         }
     }
