@@ -1,15 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Unity.VisualStudio.Editor;
 using UnityEditor.Il2Cpp;
 using UnityEngine;
 
 public class TomatoTurret : MonoBehaviour
 {
     public GameObject[] enemies;
-
     public GameObject enemyFloor;
-
     private Dictionary<string, bool> targetMode = new Dictionary<string, bool>();
     public float Cooldown;
     public bool CooldownActive;
@@ -20,6 +19,9 @@ public class TomatoTurret : MonoBehaviour
     public bool purchased = false;
     Vector3 mousePosition;
 
+    private GameObject upgradeMenuParent;
+    public GameObject upgradeMenu;
+
     BoxCollider boxCollider;
     private bool isInNoPlacementArea = false;
     public LayerMask PlacementLayer;
@@ -29,12 +31,15 @@ public class TomatoTurret : MonoBehaviour
     public int currentHealth;
     private bool inside;
     private bool airborn;
+    private bool locked;
+
     // Start is called before the first frame update
     void Start()
     {
 
         airborn = false;
         CooldownActive = false;
+        locked = false;
         Cooldown = Time.deltaTime;
         layerMask = LayerMask.GetMask("Enemy");
         lr = GetComponent<LineRenderer>();
@@ -55,13 +60,17 @@ public class TomatoTurret : MonoBehaviour
         targetMode.Add("Last", false);
         targetMode.Add("Strong", false);
 
-
+        upgradeMenuParent = GameObject.Find("Upgrade Menus");
+        upgradeMenu = upgradeMenuParent.transform.GetChild(0).gameObject;
+        upgradeMenu.SetActive(false);
         enemyFloor = GameObject.Find("Enemy Floor");
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(Input.GetKeyDown(KeyCode.L)) locked = !locked;
+        if(Input.GetKeyDown(KeyCode.Escape) && upgradeMenu.activeSelf) upgradeMenu.SetActive(false);
         if(inside)
         {
             if(Cooldown < AttackTimer && CooldownActive)
@@ -133,7 +142,7 @@ public class TomatoTurret : MonoBehaviour
             isInNoPlacementArea = true;
             Debug.Log("In Area");
 
-            MoveToNearestValidPosition();
+            MoveToDefaultValidPosition();
         }
         else
         {
@@ -142,31 +151,16 @@ public class TomatoTurret : MonoBehaviour
         }
     }
 
-    private void MoveToNearestValidPosition()
+    private void MoveToDefaultValidPosition()
     {
-        float searchRadius = 10f;
+        float searchRadius = 20f;
         // Perform a search for valid positions in the surrounding area
         Collider[] validSpots = Physics.OverlapSphere(transform.position, searchRadius, PlacementLayer);
 
         if (validSpots.Length > 0)
         {
-            // Find the closest valid position
             Collider nearestSpot = validSpots[0];
-            float nearestDistance = Vector3.Distance(transform.position, nearestSpot.transform.position);
-
-            // Iterate through the nearby valid spots and find the closest one
-            foreach (Collider spot in validSpots)
-            {
-                float distance = Vector3.Distance(transform.position, spot.transform.position);
-                if (distance < nearestDistance)
-                {
-                    nearestSpot = spot;
-                    nearestDistance = distance;
-                }
-            }
-
             if(airborn) return;
-            // Move the tower to the nearest valid position
             transform.position = nearestSpot.transform.position;
             lr.SetPosition(1, transform.position);
             lr.SetPosition(0, transform.position);
@@ -174,7 +168,7 @@ public class TomatoTurret : MonoBehaviour
             CooldownActive = true;
             targetLock = false;
             playerManager.Instance.generateGold(5);
-            Debug.Log("Moved to nearest valid position.");
+            Debug.Log("Moved to the default position.");
         }
     }
 
@@ -274,7 +268,7 @@ public class TomatoTurret : MonoBehaviour
 
     private void OnMouseDrag()
     {
-        if (!purchased || playerManager.Instance.gold < 5) return;
+        if (!purchased || playerManager.Instance.gold < 5 || locked) return;
 
         // Perform the raycast to check if we're interacting with the BoxCollider
         airborn = true;
@@ -284,6 +278,13 @@ public class TomatoTurret : MonoBehaviour
         Cooldown = 0.0f;
         CooldownActive = true;
         targetLock = false;
+    }
+
+    void OnMouseDown()
+    {
+        if(!locked) return;
+        upgradeMenu.SetActive(true);
+        Debug.Log("Test");
     }
 
     void OnMouseUp()
