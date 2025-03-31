@@ -10,14 +10,11 @@ public class enemyMovement : MonoBehaviour
     private NavMeshAgent agent;
     public bool inside = false;
     private int currentWaypointsIndex = 0;
-
     public Material[] colors;
-
     private MeshRenderer mr;
-
     public int currentHealth;
-
     public int startingHealth;
+    private Animator animator;
 
     void Start()
     {
@@ -29,6 +26,7 @@ public class enemyMovement : MonoBehaviour
         mr = GetComponent<MeshRenderer>();
         currentHealth = Array.IndexOf(colors, mr.sharedMaterial);
         startingHealth = currentHealth;
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -48,6 +46,7 @@ public class enemyMovement : MonoBehaviour
         {
             DamageEnemy(EnemyManager.Instance.currentDamage);
         }
+        animateSlime();
     }
 
     public int DamageEnemy(int Damage)
@@ -62,5 +61,18 @@ public class enemyMovement : MonoBehaviour
         }
         mr.material = colors[currentHealth];
         return currentHealth;  
+    }
+    private void animateSlime()
+    {
+        if(agent.destination != null)
+        {
+            animator.SetBool("Movement", true);
+            Debug.Log("test");
+        }
+        else
+        {
+            animator.SetBool("Movement", false);
+            Debug.Log("False");
+        }
     }
 }

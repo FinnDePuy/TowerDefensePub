@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: -642633476000865693}
   - component: {fileID: 490046177832417578}
   - component: {fileID: 8974289426760559313}
+  - component: {fileID: -3286345863848466236}
   m_Layer: 0
   m_Name: Blue Enemy
   m_TagString: Enemy
@@ -142,22 +143,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0628a0fe3ff0f984b92dc9d409926ee9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waypoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  inside: 0
   colors:
   - {fileID: 2100000, guid: 978c565f1019c7345b23a4d7fdf3e184, type: 2}
   - {fileID: 2100000, guid: 72173b80e5be78d4e844d57303eddd5d, type: 2}
@@ -166,6 +152,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 103d31424d9da924eb218c6be36454de, type: 2}
   - {fileID: 2100000, guid: e11f61f16eb8f1e49a5a3529ec356eaa, type: 2}
   currentHealth: 0
+  startingHealth: 0
 --- !u!54 &8974289426760559313
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -193,3 +180,24 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!95 &-3286345863848466236
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5160222938953183668}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

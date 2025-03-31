@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using Microsoft.Unity.VisualStudio.Editor;
 using UnityEditor.Il2Cpp;
 using UnityEngine;
@@ -17,7 +18,7 @@ public class TomatoTurret : MonoBehaviour
     Collider current;
     LineRenderer lr;
     public bool purchased = false;
-    Vector3 mousePosition;
+    UnityEngine.Vector3 mousePosition;
 
     private GameObject upgradeMenuParent;
     public GameObject upgradeMenu;
@@ -33,6 +34,9 @@ public class TomatoTurret : MonoBehaviour
     private bool airborn;
     private bool locked;
 
+    private GameObject body;
+    [SerializeField] private GameObject laserStart;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -42,15 +46,17 @@ public class TomatoTurret : MonoBehaviour
         locked = false;
         Cooldown = Time.deltaTime;
         layerMask = LayerMask.GetMask("Enemy");
-        lr = GetComponent<LineRenderer>();
+        lr = GetComponentInChildren<LineRenderer>();
         boxCollider = gameObject.GetComponent<BoxCollider>();
+        body = lr.gameObject;
+
 
         //setting up the line to be drawn
         lr.positionCount = 2;
         lr.startWidth = 0.1f;
         lr.endWidth = 0.1f;
-        lr.SetPosition(1, transform.position);
-        lr.SetPosition(0, transform.position);
+        lr.SetPosition(1, laserStart.transform.position);
+        lr.SetPosition(0, laserStart.transform.position);
         lr.startColor = Color.clear;
         lr.endColor = Color.clear;
 
@@ -86,7 +92,7 @@ public class TomatoTurret : MonoBehaviour
             //stop attacking edgecase
             if(current == null) 
             {
-                lr.SetPosition(1, transform.position);
+                lr.SetPosition(1, laserStart.transform.position);
                 lr.startColor = Color.clear;
                 lr.endColor = Color.clear;
                 return;
@@ -99,11 +105,18 @@ public class TomatoTurret : MonoBehaviour
                 CooldownActive = true;
                 lr.startColor = Color.red;
                 lr.endColor = Color.red;
-                lr.SetPosition(0, transform.position);
+                lr.SetPosition(0, laserStart.transform.position);
                 targetLock = true;
             }
 
-            if(!airborn) lr.SetPosition(1, current.transform.position);
+            //actually aim the laser
+            if(!airborn) 
+            {
+                lr.SetPosition(1, current.transform.position);
+                lr.SetPosition(0, laserStart.transform.position);
+                body.transform.LookAt(current.transform.position);
+                body.transform.Rotate(new UnityEngine.Vector3(0, 180f, 0));
+            }
 
 
             //this is where we will do damage any of the enemies with this specific tower
@@ -123,7 +136,8 @@ public class TomatoTurret : MonoBehaviour
         }
         else
         {
-            lr.SetPosition(1, transform.position);
+            lr.SetPosition(0, laserStart.transform.position);
+            lr.SetPosition(1, laserStart.transform.position);
             lr.startColor = Color.clear;
             lr.endColor = Color.clear;
             Cooldown = 0.0f;
@@ -131,12 +145,10 @@ public class TomatoTurret : MonoBehaviour
             targetLock = false;
         }
 
-        Vector3 bottomOfCube = transform.position - new Vector3(0, GetComponent<Collider>().bounds.extents.y - 4.5f, 0);
+        UnityEngine.Vector3 bottomOfCube = transform.position - new UnityEngine.Vector3(0, GetComponent<Collider>().bounds.extents.y - 4.5f, 0);
         // Create a ray from the bottom of the cube, pointing downward or in the direction you want to check
-        Ray ray = new Ray(bottomOfCube, Vector3.down); // Ray goes downward from the bottom of the cube
-        Debug.DrawRay(ray.origin, ray.direction * 10f, Color.red);  // Visualize the ray in the Scene view
+        Ray ray = new Ray(bottomOfCube, UnityEngine.Vector3.down); 
         RaycastHit hitInfo;
-
         if (Physics.Raycast(ray, out hitInfo, Mathf.Infinity, ~PlacementLayer)) 
         {
             isInNoPlacementArea = true;
@@ -162,8 +174,8 @@ public class TomatoTurret : MonoBehaviour
             Collider nearestSpot = validSpots[0];
             if(airborn) return;
             transform.position = nearestSpot.transform.position;
-            lr.SetPosition(1, transform.position);
-            lr.SetPosition(0, transform.position);
+            lr.SetPosition(1, laserStart.transform.position);
+            lr.SetPosition(0, laserStart.transform.position);
             Cooldown = 0.0f;
             CooldownActive = true;
             targetLock = false;
@@ -249,7 +261,7 @@ public class TomatoTurret : MonoBehaviour
         }
     }
 
-    private Vector3 getMousePos()
+    private UnityEngine.Vector3 getMousePos()
     {
         return Camera.main.WorldToScreenPoint(transform.position);
     }
@@ -273,8 +285,8 @@ public class TomatoTurret : MonoBehaviour
         // Perform the raycast to check if we're interacting with the BoxCollider
         airborn = true;
         transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition - mousePosition);
-        lr.SetPosition(1, transform.position);
-        lr.SetPosition(0, transform.position);
+        lr.SetPosition(1, new UnityEngine.Vector3(transform.position.x, transform.position.y + 1.2f, transform.position.z));
+        lr.SetPosition(0, new UnityEngine.Vector3(transform.position.x, transform.position.y + 1.2f, transform.position.z));
         Cooldown = 0.0f;
         CooldownActive = true;
         targetLock = false;
