@@ -23,7 +23,7 @@ public class enemyMovement : MonoBehaviour
         {
             agent.SetDestination(EnemyManager.Instance.waypoints[currentWaypointsIndex].position);
         }
-        mr = GetComponent<MeshRenderer>();
+        mr = GetComponentInChildren<MeshRenderer>();
         currentHealth = Array.IndexOf(colors, mr.sharedMaterial);
         startingHealth = currentHealth;
         animator = GetComponent<Animator>();
